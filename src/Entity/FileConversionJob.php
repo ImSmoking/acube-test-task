@@ -18,17 +18,17 @@ class FileConversionJob
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private Uuid $id {
+    public Uuid $id {
         get {
             return $this->id;
         }
     }
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: File::class, inversedBy: 'fileConversionJobs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?File $sourceFile = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: File::class)]
     private ?File $outputFile = null;
 
     #[ORM\Column(enumType: FileConversionJobTargetFormatEnum::class)]

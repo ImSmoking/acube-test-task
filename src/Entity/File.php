@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FileRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -15,7 +17,7 @@ class File
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private Uuid $id {
+    public Uuid $id {
         get {
             return $this->id;
         }
@@ -45,10 +47,19 @@ class File
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\OneToOne(targetEntity: FileConversionJob::class, mappedBy: 'sourceFile', cascade: ['persist', 'remove'])]
+    private Collection $fileConversionJobs;
+
 
     public function __construct()
     {
         $this->id = Uuid::v4();
+        $this->fileConversionJobs = new ArrayCollection();
+    }
+
+    public function getFileConversionJobs(): Collection
+    {
+        return $this->fileConversionJobs;
     }
 
     public function getOriginalFilename(): ?string
