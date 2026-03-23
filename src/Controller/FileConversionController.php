@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Dto\Request\FileUploadRequest;
 use App\Dto\Response\FileUploadResponse;
+use App\Service\ConversionDispatcherService;
 use App\Service\ValidatorService;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -56,7 +57,7 @@ final class FileConversionController extends AbstractController
             ]
         )
     )]
-    public function upload(Request $request): JsonResponse
+    public function upload(Request $request, ConversionDispatcherService $conversionDispatcherService): JsonResponse
     {
         $fileUploadRequest = new FileUploadRequest(
             file: $request->files->get('file'),
@@ -67,6 +68,9 @@ final class FileConversionController extends AbstractController
         if (!is_null($errorResponse = $this->validatorService->validateDtoRequest($fileUploadRequest))) {
             return $errorResponse;
         }
+
+        $file = $conversionDispatcherService->dispatchConversionFromUploadRequest($fileUploadRequest);
+
 
         return $this->json(data: [], status: Response::HTTP_ACCEPTED);
     }

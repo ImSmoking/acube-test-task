@@ -18,6 +18,13 @@ class FileRepository extends ServiceEntityRepository
         parent::__construct($registry, File::class);
     }
 
+    public function save(File $file, bool $persist = true): void
+    {
+        $this->getEntityManager()->persist($file);
+        if ($persist) {
+            $this->getEntityManager()->flush();
+        }
+    }
     //    /**
     //     * @return File[] Returns an array of File objects
     //     */

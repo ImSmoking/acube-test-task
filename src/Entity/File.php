@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: FileRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class File
 {
     #[ORM\Id]
@@ -49,7 +50,7 @@ class File
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToOne(targetEntity: FileConversionJob::class, mappedBy: 'sourceFile', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: FileConversionJob::class, mappedBy: 'sourceFile', cascade: ['persist', 'remove'])]
     private Collection $fileConversionJobs;
 
 
@@ -158,5 +159,18 @@ class File
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

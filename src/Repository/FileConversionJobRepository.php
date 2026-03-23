@@ -42,4 +42,12 @@ class FileConversionJobRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function save(FileConversionJob $conversionJob, bool $persist = true): void
+    {
+        $this->getEntityManager()->persist($conversionJob);
+
+        if ($persist) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

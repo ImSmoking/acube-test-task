@@ -14,6 +14,7 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: FileConversionJobRepository::class)]
 #[ORM\UniqueConstraint(name: 'uq_source_file_target_format', columns: ['source_file_id', 'target_format'])]
+#[ORM\HasLifecycleCallbacks]
 class FileConversionJob
 {
     #[ORM\Id]
@@ -150,5 +151,11 @@ class FileConversionJob
         $this->completedAt = $completedAt;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
     }
 }
