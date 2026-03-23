@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Enum\FileConversionJob\FileConversionJobStatusEnum;
@@ -59,7 +61,7 @@ class FileConversionJob
         return $this->sourceFile;
     }
 
-    public function setSourceFile(?File $sourceFile): static
+    public function setSourceFile(?File $sourceFile): self
     {
         $this->sourceFile = $sourceFile;
 
@@ -71,7 +73,7 @@ class FileConversionJob
         return $this->outputFile;
     }
 
-    public function setOutputFile(?File $outputFile): static
+    public function setOutputFile(?File $outputFile): self
     {
         $this->outputFile = $outputFile;
 
@@ -83,7 +85,7 @@ class FileConversionJob
         return $this->targetFormat;
     }
 
-    public function setTargetFormat(FileConversionJobTargetFormatEnum $targetFormat): static
+    public function setTargetFormat(FileConversionJobTargetFormatEnum $targetFormat): self
     {
         $this->targetFormat = $targetFormat;
 
@@ -95,7 +97,7 @@ class FileConversionJob
         return $this->status;
     }
 
-    public function setStatus(FileConversionJobStatusEnum $status): static
+    public function setStatus(FileConversionJobStatusEnum $status): self
     {
         $this->status = $status;
 
@@ -107,7 +109,7 @@ class FileConversionJob
         return $this->errorMessage;
     }
 
-    public function setErrorMessage(?string $errorMessage): static
+    public function setErrorMessage(?string $errorMessage): self
     {
         $this->errorMessage = $errorMessage;
 
@@ -119,7 +121,7 @@ class FileConversionJob
         return $this->retryCount;
     }
 
-    public function setRetryCount(int $retryCount): static
+    public function setRetryCount(int $retryCount): self
     {
         $this->retryCount = $retryCount;
 
@@ -131,7 +133,7 @@ class FileConversionJob
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -143,7 +145,7 @@ class FileConversionJob
         return $this->completedAt;
     }
 
-    public function setCompletedAt(?\DateTimeImmutable $completedAt): static
+    public function setCompletedAt(?\DateTimeImmutable $completedAt): self
     {
         $this->completedAt = $completedAt;
 

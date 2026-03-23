@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\FileRepository;
@@ -39,7 +41,7 @@ class File
     private ?string $extension = null;
 
     #[ORM\Column(type: Types::BIGINT)]
-    private ?string $size = null;
+    private ?int $size = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -67,7 +69,7 @@ class File
         return $this->originalFilename;
     }
 
-    public function setOriginalFilename(string $originalFilename): static
+    public function setOriginalFilename(string $originalFilename): self
     {
         $this->originalFilename = $originalFilename;
 
@@ -79,7 +81,7 @@ class File
         return $this->storedFilename;
     }
 
-    public function setStoredFilename(string $storedFilename): static
+    public function setStoredFilename(string $storedFilename): self
     {
         $this->storedFilename = $storedFilename;
 
@@ -91,7 +93,7 @@ class File
         return $this->path;
     }
 
-    public function setPath(string $path): static
+    public function setPath(string $path): self
     {
         $this->path = $path;
 
@@ -103,7 +105,7 @@ class File
         return $this->mimeType;
     }
 
-    public function setMimeType(string $mimeType): static
+    public function setMimeType(string $mimeType): self
     {
         $this->mimeType = $mimeType;
 
@@ -115,19 +117,19 @@ class File
         return $this->extension;
     }
 
-    public function setExtension(string $extension): static
+    public function setExtension(string $extension): self
     {
         $this->extension = $extension;
 
         return $this;
     }
 
-    public function getSize(): ?string
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
-    public function setSize(string $size): static
+    public function setSize(int $size): self
     {
         $this->size = $size;
 
@@ -139,7 +141,7 @@ class File
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -151,7 +153,7 @@ class File
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
