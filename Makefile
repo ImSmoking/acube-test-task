@@ -3,13 +3,14 @@ DOCKER_COMPOSE ?= docker compose
 TESTDOX_FLAG = $(if $(filter 1 yes true,$(TESTDOX)),--testdox,)
 PHPUNIT = $(DOCKER_COMPOSE) exec php php bin/phpunit -c phpunit.dist.xml $(TESTDOX_FLAG)
 
-.PHONY: help up start stop down restart teardown \
+.PHONY: help setup up start stop down restart teardown \
 	shell shell-php shell-db shell-nginx \
 	php php-run \
 	test test-functional test-file
 
 help:
 	@echo ""
+	@echo "  make setup             Build containers, start services and install dependencies"
 	@echo "  make up / make start   Start all services in the background"
 	@echo "  make stop              Stop all services (containers kept)"
 	@echo "  make down              Stop and remove containers (networks; volumes kept)"
@@ -27,6 +28,11 @@ help:
 	@echo "  make test-file FILE=… [TESTDOX=1] One file, e.g. FILE=tests/functional/FooTest.php"
 
 
+
+setup:
+	$(DOCKER_COMPOSE) up -d --build
+	$(DOCKER_COMPOSE) exec php composer install
+	$(DOCKER_COMPOSE) exec php php bin/console doctrine:migrations:migrate --no-interaction
 
 up start:
 	$(DOCKER_COMPOSE) up -d
