@@ -18,6 +18,10 @@ class FileManager
     {
     }
 
+    /**
+     * @param UploadedFile $uploadedFile
+     * @return File
+     */
     public function createFromUploadedFile(UploadedFile $uploadedFile): File
     {
         $file = new File()

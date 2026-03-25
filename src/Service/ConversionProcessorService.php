@@ -6,12 +6,16 @@ namespace App\Service;
 
 use App\Entity\FileConversionJob;
 use App\Enum\FileConversionJob\FileConversionJobStatusEnum;
+use App\Manager\FileManager;
 use App\Repository\FileConversionJobRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 readonly class ConversionProcessorService
 {
     public function __construct(
         private FileConversionJobRepository $fileConversionJobRepository,
+        private FileConversionService $fileConversionService,
+        private FileManager $fileManager,
     )
     {
     }
@@ -19,6 +23,7 @@ readonly class ConversionProcessorService
     /**
      * @param string $fileJobConversionId
      * @return void
+     * @throws \Throwable
      */
     public function processConversion(string $fileJobConversionId): void
     {
@@ -27,11 +32,13 @@ readonly class ConversionProcessorService
             $fileJobConversion = $this->fileConversionJobRepository->find($fileJobConversionId);
             $this->markFileConversionAsStarted($fileJobConversion);
 
-            sleep(180);
+            $convertedFilepath = $this->fileConversionService->convertFromFileConversionJob($fileJobConversion);
 
-            $this->markFileConversionAsCompleted($fileJobConversion);
+            $this->markFileConversionAsCompleted($fileJobConversion, $convertedFilepath);
         } catch (\Throwable $throwable) {
             $this->markFileConversionAsFailed($fileJobConversion, $throwable);
+
+            throw $throwable;
         }
     }
 
@@ -51,12 +58,20 @@ readonly class ConversionProcessorService
 
     /**
      * @param FileConversionJob $fileJobConversion
+     * @param string $convertedFilepath
      * @return void
      */
-    private function markFileConversionAsCompleted(FileConversionJob $fileJobConversion): void
+    private function markFileConversionAsCompleted(FileConversionJob $fileJobConversion, string $convertedFilepath): void
     {
+
+        $uploadedFile = new UploadedFile($convertedFilepath, basename($convertedFilepath));
+        $convertedFile = $this->fileManager->createFromUploadedFile($uploadedFile);
+        rename($convertedFilepath, $convertedFile->getPath() . $convertedFile->getStoredFilename());
+
+
         $fileJobConversion
             ->setStatus(FileConversionJobStatusEnum::COMPLETED)
+            ->setOutputFile($convertedFile)
             ->setCompletedAt(new \DateTimeImmutable());
 
         $this->fileConversionJobRepository->save($fileJobConversion);
