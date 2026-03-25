@@ -29,9 +29,17 @@ readonly class FileConversionJobResponse
         #[Groups(['file:conversion:upload'])]
         public \DateTimeImmutable $createdAt,
 
+        #[OA\Property(property: 'started_at', type: 'string', format: 'date-time', example: '2024-03-21T14:30:00+00:00')]
+        #[Groups(['file:conversion:upload'])]
+        public ?\DateTimeImmutable $startedAt = null,
+
         #[OA\Property(property: 'completed_at', type: 'string', format: 'date-time', example: '2024-03-21T14:30:00+00:00')]
         #[Groups(['file:conversion:upload'])]
         public ?\DateTimeImmutable $completeAt = null,
+
+        #[OA\Property(property: 'processing_time', description: 'Processing time in seconds', type: 'int', readOnly: true, example: 12)]
+        #[Groups(['file:conversion:upload'])]
+        public ?int $conversionTime = null,
 
         #[OA\Property(property: 'error_message', type: 'string', readOnly: true, example: 'error message')]
         #[Groups(['file:conversion:upload'])]
@@ -48,7 +56,9 @@ readonly class FileConversionJobResponse
             status: $fileConversionJob->getStatus()->value,
             targetFormat: $fileConversionJob->getTargetFormat()->value,
             createdAt: $fileConversionJob->getCreatedAt(),
+            startedAt: $fileConversionJob->getStartedAt(),
             completeAt: $fileConversionJob->getCompletedAt(),
+            conversionTime: $fileConversionJob->getProcessingTime(),
             errorMessage: $fileConversionJob->getErrorMessage()
         );
     }

@@ -49,6 +49,7 @@ final class FileConversionUploadTest extends WebTestCase
         $this->assertArrayHasKey('id', $data);
         $this->assertArrayHasKey('original_filename', $data);
         $this->assertArrayHasKey('extension', $data);
+        $this->assertArrayHasKey('mime_type', $data);
         $this->assertArrayHasKey('size', $data);
         $this->assertArrayHasKey('file_conversion_jobs', $data);
 
@@ -58,6 +59,7 @@ final class FileConversionUploadTest extends WebTestCase
         $this->assertArrayHasKey('target_format', $data['file_conversion_jobs'][0]);
         $this->assertArrayHasKey('created_at', $data['file_conversion_jobs'][0]);
         $this->assertArrayHasKey('complete_at', $data['file_conversion_jobs'][0]);
+        $this->assertArrayHasKey('conversion_time', $data['file_conversion_jobs'][1]);
         $this->assertArrayHasKey('error_message', $data['file_conversion_jobs'][0]);
 
         $this->assertSame('pending', $data['file_conversion_jobs'][0]['status']);
@@ -67,6 +69,7 @@ final class FileConversionUploadTest extends WebTestCase
         $this->assertArrayHasKey('target_format', $data['file_conversion_jobs'][1]);
         $this->assertArrayHasKey('created_at', $data['file_conversion_jobs'][1]);
         $this->assertArrayHasKey('complete_at', $data['file_conversion_jobs'][1]);
+        $this->assertArrayHasKey('conversion_time', $data['file_conversion_jobs'][1]);
         $this->assertArrayHasKey('error_message', $data['file_conversion_jobs'][1]);
 
         $this->assertSame('pending', $data['file_conversion_jobs'][1]['status']);

@@ -22,11 +22,15 @@ readonly class FileUploadResponse
         #[Groups(['file:conversion:upload'])]
         public string $originalFilename,
 
-        #[OA\Property(property: 'original_filename', type: 'string')]
+        #[OA\Property(property: 'extension', description: 'file extension type', type: 'string', example: 'csv')]
         #[Groups(['file:conversion:upload'])]
         public string $extension,
 
-        #[OA\Property(property: 'original_filename')]
+        #[OA\Property(property: 'mime_type', description: 'file mime-type', type: 'string', example: 'text/csv')]
+        #[Groups(['file:conversion:upload'])]
+        public string $mimeType,
+
+        #[OA\Property(property: ' size', description: 'file size in bytes', type: 'int', example: 100)]
         #[Groups(['file:conversion:upload'])]
         public int $size,
 
@@ -54,6 +58,7 @@ readonly class FileUploadResponse
             id: $file->id->__toString(),
             originalFilename: $file->getOriginalFilename(),
             extension: $file->getExtension(),
+            mimeType: $file->getMimeType(),
             size: $file->getSize(),
             fileConversionJobs: $conversionJobs
         );

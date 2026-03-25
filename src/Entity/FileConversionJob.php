@@ -50,6 +50,9 @@ class FileConversionJob
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $startedAt = null;
+
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $completedAt = null;
 
     public function __construct()
@@ -153,9 +156,30 @@ class FileConversionJob
         return $this;
     }
 
+    public function getStartedAt(): ?\DateTimeImmutable
+    {
+        return $this->startedAt;
+    }
+
+    public function setStartedAt(?\DateTimeImmutable $startedAt): self
+    {
+        $this->startedAt = $startedAt;
+
+        return $this;
+    }
+
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getProcessingTime(): ?int
+    {
+        if ($this->completedAt === null || $this->startedAt === null) {
+            return null;
+        }
+
+        return $this->completedAt->getTimestamp() - $this->startedAt->getTimestamp();
     }
 }
