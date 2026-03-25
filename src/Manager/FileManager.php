@@ -9,11 +9,11 @@ use App\Entity\File;
 use App\Repository\FileRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class FileManager
+readonly class FileManager
 {
     public function __construct(
-        private readonly FileRepository $fileRepository,
-        private readonly string $filesUploadFolder
+        private FileRepository $fileRepository,
+        private string $filesUploadFolder
     )
     {
     }

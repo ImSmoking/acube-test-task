@@ -96,6 +96,11 @@ final class FileConversionController extends AbstractController
             ref: new Model(type: FileConversionJobResponse::class)
         )
     )]
+    #[OA\Response(
+        response: Response::HTTP_NOT_FOUND,
+        description: 'File conversion job not found',
+        content: new OA\MediaType(mediaType: 'application/octet-stream')
+    )]
     public function status(
         #[MapEntity(mapping: ['file_conversion_job_id' => 'id'])]
         FileConversionJob $fileConversionJob
@@ -122,7 +127,7 @@ final class FileConversionController extends AbstractController
     )]
     #[OA\Response(
         response: Response::HTTP_UNPROCESSABLE_ENTITY,
-        description: 'Conversion not ready',
+        description: 'File conversion job has failed',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(
@@ -184,7 +189,7 @@ final class FileConversionController extends AbstractController
                     'error' => 'File conversion job is still being processed',
                     'error_message' => $fileConversionJob->getErrorMessage()
                 ],
-                status: Response::HTTP_CONFLICT,
+                status: Response::HTTP_UNPROCESSABLE_ENTITY,
             );
         }
 

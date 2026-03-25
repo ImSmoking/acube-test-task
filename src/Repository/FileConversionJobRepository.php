@@ -18,30 +18,11 @@ class FileConversionJobRepository extends ServiceEntityRepository
         parent::__construct($registry, FileConversionJob::class);
     }
 
-    //    /**
-    //     * @return FileConversion[] Returns an array of FileConversion objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('f.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?FileConversion
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @param FileConversionJob $conversionJob
+     * @param bool $persist
+     * @return void
+     */
     public function save(FileConversionJob $conversionJob, bool $persist = true): void
     {
         $this->getEntityManager()->persist($conversionJob);

@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class ValidatorService
+readonly class ValidatorService
 {
     public function __construct(
-        private readonly ValidatorInterface $validator
+        private ValidatorInterface $validator
     )
     {
     }

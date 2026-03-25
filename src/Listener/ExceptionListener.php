@@ -21,6 +21,10 @@ class ExceptionListener
     {
     }
 
+    /**
+     * @param ExceptionEvent $event
+     * @return void
+     */
     public function __invoke(ExceptionEvent $event): void
     {
         if (!str_starts_with($event->getRequest()->getPathInfo(), '/api')) {
@@ -35,7 +39,6 @@ class ExceptionListener
             'status' => $statusCode,
         ];
 
-        // expose trace in dev only
         if ($this->environment === 'dev') {
             $response['trace'] = $exception->getTrace();
         }
@@ -43,6 +46,10 @@ class ExceptionListener
         $event->setResponse(new JsonResponse($response, $statusCode));
     }
 
+    /**
+     * @param \Throwable $exception
+     * @return int
+     */
     private function resolveStatusCode(\Throwable $exception): int
     {
         if ($exception instanceof HttpExceptionInterface) {
