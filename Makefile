@@ -1,9 +1,12 @@
-# Docker Compose helpers — see `make help`
+
 DOCKER_COMPOSE ?= docker compose
+TESTDOX_FLAG = $(if $(filter 1 yes true,$(TESTDOX)),--testdox,)
+PHPUNIT = $(DOCKER_COMPOSE) exec php php bin/phpunit -c phpunit.dist.xml $(TESTDOX_FLAG)
 
 .PHONY: help up start stop down restart teardown \
 	shell shell-php shell-db shell-nginx \
-	php php-run
+	php php-run \
+	test test-functional test-file
 
 help:
 	@echo ""
@@ -17,6 +20,11 @@ help:
 	@echo "  make shell-php"
 	@echo "  make shell-db"
 	@echo "  make shell-nginx"
+	@echo ""
+	@echo "Tests (PHPUnit, inside php container; add TESTDOX=1 for --testdox):"
+	@echo "  make test [TESTDOX=1]           All tests under tests/"
+	@echo "  make test-functional [TESTDOX=1]  Only tests/functional/"
+	@echo "  make test-file FILE=… [TESTDOX=1] One file, e.g. FILE=tests/functional/FooTest.php"
 
 
 
@@ -43,6 +51,16 @@ endif
 
 restart:
 	$(DOCKER_COMPOSE) restart
+
+test:
+	$(PHPUNIT) tests
+
+test-functional:
+	$(PHPUNIT) tests/functional
+
+test-file:
+	@test -n "$(FILE)" || (echo "Usage: make test-file FILE=tests/functional/MyTest.php"; exit 1)
+	$(PHPUNIT) $(FILE)
 
 
 

@@ -25,10 +25,6 @@ readonly class FileConversionJobResponse
         #[Groups(['file:conversion:upload'])]
         public string $targetFormat,
 
-        #[OA\Property(property: 'error_message', type: 'string', readOnly: true, example: 'error message')]
-        #[Groups(['file:conversion:upload'])]
-        public ?string $errorMessage = null,
-
         #[OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2024-03-21T14:30:00+00:00')]
         #[Groups(['file:conversion:upload'])]
         public \DateTimeImmutable $createdAt,
@@ -36,6 +32,10 @@ readonly class FileConversionJobResponse
         #[OA\Property(property: 'completed_at', type: 'string', format: 'date-time', example: '2024-03-21T14:30:00+00:00')]
         #[Groups(['file:conversion:upload'])]
         public ?\DateTimeImmutable $completeAt = null,
+
+        #[OA\Property(property: 'error_message', type: 'string', readOnly: true, example: 'error message')]
+        #[Groups(['file:conversion:upload'])]
+        public ?string $errorMessage = null,
     )
     {
     }
@@ -47,9 +47,9 @@ readonly class FileConversionJobResponse
             id: $fileConversionJob->id->__toString(),
             status: $fileConversionJob->getStatus()->value,
             targetFormat: $fileConversionJob->getTargetFormat()->value,
-            errorMessage: $fileConversionJob->getErrorMessage(),
             createdAt: $fileConversionJob->getCreatedAt(),
-            completeAt: $fileConversionJob->getCompletedAt()
+            completeAt: $fileConversionJob->getCompletedAt(),
+            errorMessage: $fileConversionJob->getErrorMessage()
         );
     }
 }

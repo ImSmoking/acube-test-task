@@ -61,7 +61,7 @@ final class FileConversionController extends AbstractController
     {
         $fileUploadRequest = new FileUploadRequest(
             file: $request->files->get('file'),
-            targetFormats: explode(',', $request->request->get('target_formats')),
+            targetFormats: is_string($request->request->get('target_formats')) ? explode(',', $request->request->get('target_formats')) : []
         );
 
         // Validating the request
