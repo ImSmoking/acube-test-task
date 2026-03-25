@@ -26,7 +26,7 @@ readonly class ConversionDispatcherService
 
         $file = $this->fileManager->createFromUploadedFile($uploadRequest->file);
         $this->fileConversionJobManager->createForMultipleTargetFormats($file, $targetFormats);
-
+        
         $uploadedFile->move($file->getPath(), $file->getStoredFilename());
 
         return $file;

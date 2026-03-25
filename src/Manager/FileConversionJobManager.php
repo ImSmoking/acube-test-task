@@ -30,6 +30,7 @@ class FileConversionJobManager
             if ($lastTargetFormat === $targetFormat) {
                 $persist = true;
             }
+            $file->addConversionJob($conversionJob);
             $this->fileConversionJobRepository->save($conversionJob, $persist);
         }
     }

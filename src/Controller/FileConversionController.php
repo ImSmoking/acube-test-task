@@ -71,8 +71,11 @@ final class FileConversionController extends AbstractController
 
         $file = $conversionDispatcherService->dispatchConversionFromUploadRequest($fileUploadRequest);
 
-
-        return $this->json(data: [], status: Response::HTTP_ACCEPTED);
+        return $this->json(
+            data: FileUploadResponse::fromEntity($file),
+            status: Response::HTTP_ACCEPTED,
+            context: ['groups' => ['file:conversion:upload']]
+        );
     }
 
     #[Route('/{id}/status', name: 'api.files.status', methods: ['GET'])]

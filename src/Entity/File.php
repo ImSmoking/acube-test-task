@@ -161,6 +161,26 @@ class File
         return $this;
     }
 
+    public function addConversionJob(FileConversionJob $conversionJob): self
+    {
+        if (!$this->fileConversionJobs->contains($conversionJob)) {
+            $this->fileConversionJobs->add($conversionJob);
+        }
+
+        return $this;
+    }
+
+    public function removeConversionJob(FileConversionJob $conversionJob): self
+    {
+        if ($this->fileConversionJobs->contains($conversionJob)) {
+            if ($conversionJob->getSourceFile() === $this) {
+                $this->fileConversionJobs->removeElement($conversionJob);
+            }
+        }
+
+        return $this;
+    }
+
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
