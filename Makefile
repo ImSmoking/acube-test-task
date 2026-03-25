@@ -6,7 +6,7 @@ PHPUNIT = $(DOCKER_COMPOSE) exec php php bin/phpunit -c phpunit.dist.xml $(TESTD
 .PHONY: help setup up start stop down restart teardown \
 	shell shell-php shell-db shell-nginx \
 	php php-run \
-	test test-functional test-file
+	test test-unit test-functional test-file
 
 help:
 	@echo ""
@@ -24,6 +24,7 @@ help:
 	@echo ""
 	@echo "Tests (PHPUnit, inside php container; add TESTDOX=1 for --testdox):"
 	@echo "  make test [TESTDOX=1]           All tests under tests/"
+	@echo "  make test-unit [TESTDOX=1]          Only tests/unit/"
 	@echo "  make test-functional [TESTDOX=1]  Only tests/functional/"
 	@echo "  make test-file FILE=… [TESTDOX=1] One file, e.g. FILE=tests/functional/FooTest.php"
 
@@ -60,6 +61,9 @@ restart:
 
 test:
 	$(PHPUNIT) tests
+
+test-unit:
+	$(PHPUNIT) tests/unit
 
 test-functional:
 	$(PHPUNIT) tests/functional
