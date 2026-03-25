@@ -132,6 +132,13 @@ class FileConversionJob
         return $this;
     }
 
+    public function incrementRetryCount(): self
+    {
+        $this->retryCount++;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;

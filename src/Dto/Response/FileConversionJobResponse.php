@@ -10,6 +10,7 @@ use App\Enum\FileConversionJob\FileConversionJobTargetFormatEnum;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\Groups;
 
+#[OA\Schema(schema: 'FileConversionJobResponse')]
 readonly class FileConversionJobResponse
 {
     public function __construct(

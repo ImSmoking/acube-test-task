@@ -7,11 +7,25 @@ framework:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
-            sync: 'sync://'
+            #sync: 'sync://'
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    auto_setup: true
+                    redeliver_timeout: 3600
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000
+                    multiplier: 2
+                    max_delay: 30000
+            failed:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    auto_setup: true
+                    queue_name: failed
 
         routing:
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+            App\Message\ConvertFileMessage: async
 
 # when@test:
 #    framework:

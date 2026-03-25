@@ -30,7 +30,7 @@ readonly class FileUploadResponse
         #[Groups(['file:conversion:upload'])]
         public string $mimeType,
 
-        #[OA\Property(property: ' size', description: 'file size in bytes', type: 'int', example: 100)]
+        #[OA\Property(property: 'size', description: 'file size in bytes', type: 'int', example: 100)]
         #[Groups(['file:conversion:upload'])]
         public int $size,
 
@@ -41,6 +41,7 @@ readonly class FileUploadResponse
             items: new OA\Items(ref: new Model(type: FileConversionJobResponse::class)),
         )]
         #[Groups(['file:conversion:upload'])]
+        /** @var FileConversionJobResponse[] */
         public array $fileConversionJobs = []
     )
     {
