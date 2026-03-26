@@ -92,7 +92,7 @@ final class FileConversionController extends AbstractController
     #[Route('/{file_conversion_job_id}/status', name: 'api.file_conversion_job.status', methods: ['GET'])]
     #[OA\Response(
         response: Response::HTTP_OK,
-        description: 'File accepted for conversion',
+        description: 'Returns the status of a file conversion job',
         content: new OA\JsonContent(
             ref: new Model(type: FileConversionJobResponse::class)
         )
@@ -120,7 +120,7 @@ final class FileConversionController extends AbstractController
     #[Route('/{file_conversion_job_id}/download', name: 'api.file_conversion_job.download', methods: ['GET'])]
     #[OA\Response(
         response: Response::HTTP_OK,
-        description: 'Converted File',
+        description: 'Returns the converted file',
         content: new OA\MediaType(mediaType: 'application/octet-stream')
     )]
     #[OA\Response(
