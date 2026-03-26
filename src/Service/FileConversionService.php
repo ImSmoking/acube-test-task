@@ -21,7 +21,7 @@ readonly class FileConversionService
      */
     public function convertFromFileConversionJob(FileConversionJob $fileConversionJob): string
     {
-        sleep(10);
+        sleep(180);
         $outputPath = $this->buildOutputPath($fileConversionJob);
 
         $this->ensureDirectoryExists(dirname($outputPath));
