@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Dto\Request\FileUploadRequest;
 use App\Dto\Response\FileConversionJobResponse;
 use App\Dto\Response\FileUploadResponse;
+use App\Dto\Response\NotFoundResponse;
 use App\Entity\FileConversionJob;
 use App\Enum\FileConversionJob\FileConversionJobStatusEnum;
 use App\Manager\FileConversionJobManager;
@@ -99,7 +100,9 @@ final class FileConversionController extends AbstractController
     #[OA\Response(
         response: Response::HTTP_NOT_FOUND,
         description: 'File conversion job not found',
-        content: new OA\MediaType(mediaType: 'application/octet-stream')
+        content: new OA\JsonContent(
+            ref: new Model(type: NotFoundResponse::class)
+        )
     )]
     public function status(
         #[MapEntity(mapping: ['file_conversion_job_id' => 'id'])]
@@ -123,7 +126,9 @@ final class FileConversionController extends AbstractController
     #[OA\Response(
         response: Response::HTTP_NOT_FOUND,
         description: 'File conversion job not found',
-        content: new OA\MediaType(mediaType: 'application/octet-stream')
+        content: new OA\JsonContent(
+            ref: new Model(type: NotFoundResponse::class)
+        )
     )]
     #[OA\Response(
         response: Response::HTTP_UNPROCESSABLE_ENTITY,
