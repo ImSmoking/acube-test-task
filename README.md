@@ -95,6 +95,8 @@ tests/
 
 ## API Endpoints
 
+Once the project is set up, the interactive OpenAPI documentation is available at [http://127.0.0.1/api/doc](http://127.0.0.1/api/doc).
+
 | Method | Path | Description |
 |--------|------|-------------|
 | `POST` | `/api/file-conversions/upload` | Upload a file and request conversion to one or more target formats |
