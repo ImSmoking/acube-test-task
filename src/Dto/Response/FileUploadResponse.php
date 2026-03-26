@@ -42,7 +42,7 @@ readonly class FileUploadResponse
         )]
         #[Groups(['file:conversion:upload'])]
         /** @var FileConversionJobResponse[] */
-        public array $fileConversionJobs = []
+        public array $fileConversionJobs
     )
     {
     }
