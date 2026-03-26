@@ -38,7 +38,7 @@ readonly class FileUploadResponse
             property: 'file_conversion_jobs',
             description: 'Conversions queued',
             type: 'array',
-            items: new OA\Items(ref: new Model(type: FileConversionJobResponse::class)),
+            items: new OA\Items(ref: new Model(type: FileConversionJobResponse::class, groups: ['file:conversion:upload'])),
         )]
         #[Groups(['file:conversion:upload'])]
         /** @var FileConversionJobResponse[] */

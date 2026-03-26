@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Dto\Response;
 
 use App\Entity\FileConversionJob;
-use App\Enum\FileConversionJob\FileConversionJobStatusEnum;
-use App\Enum\FileConversionJob\FileConversionJobTargetFormatEnum;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -18,11 +16,11 @@ readonly class FileConversionJobResponse
         #[Groups(['file:conversion:upload'])]
         public string $id,
 
-        #[OA\Property(property: 'status', type: 'string', enum: FileConversionJobStatusEnum::class, readOnly: true, example: 'pending')]
+        #[OA\Property(property: 'status', type: 'string', enum: ['pending', 'processing', 'completed', 'failed'], readOnly: true, example: 'pending')]
         #[Groups(['file:conversion:upload'])]
         public string $status,
 
-        #[OA\Property(property: 'target_format', type: 'string', enum: FileConversionJobTargetFormatEnum::class, readOnly: true, example: 'csv')]
+        #[OA\Property(property: 'target_format', type: 'string', enum: ['csv', 'json', 'xml', 'ods'], readOnly: true, example: 'csv')]
         #[Groups(['file:conversion:upload'])]
         public string $targetFormat,
 
